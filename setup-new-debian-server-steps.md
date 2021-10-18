@@ -1,32 +1,30 @@
 ## Login & download sysops scripts
 
-```
+```bash
 # login to the server
 ssh user@new-server-ip
 
-# update system files and install curl to clone git repo with support scripts
+# set default username
+
 su -
-apt-get update & apt-get upgrade & apt-get install curl
+
+# update system files and install curl to clone git repo with support scripts
+apt-get update & apt-get upgrade & apt-get install curl sudo wget
+
+# set the default username to run commands without sudo
+export USERNAME_ADMIN=<<<REPLACE_WITH_YOUR_USERNAME>> 
+echo "$USERNAME_ADMIN ALL=(ALL) NOPASSWD:ALL" > /etc/sudoers.d/$USERNAME_ADMIN
 
 # install docker
-apt-get -y update && apt-get -y upgrade && apt-get install -y curl git wget
-
-# make nopassword access to the server from your computer
-```
-ssh-keygen -b 2048 -t rsa
-# copy & past a public key from public computer to server ( get it from ~/.ssh/id_rsa.pub ) 
-vi ~/.ssh/authorized_keys
-chmod +600 ~/.ssh/authorized_keys
-```
-
+apt-get -y update && apt-get -y upgrade && apt-get install -y curl
 
 # download repo scripts
-git clone  https://github.com/kirillus/devops.git /usr/local/bin/devops
-cd /usr/local/bin/devops
+cd /usr/local/bin
+curl -JLO  https://github.com/kirillus/devops.git
+cd devops.git
 ```
 
 ## Run a init script to install packages for new server
+```bash
+sudo /usr/local/bin/devops.git/init-debian.sh
 ```
-/usr/local/bin/devops/init-debian.sh
-```
-  
